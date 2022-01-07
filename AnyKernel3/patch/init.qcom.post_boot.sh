@@ -24,7 +24,7 @@ function configure_zram_parameters() {
             echo 805306368 > /sys/block/zram0/disksize
         else
             # modify by zfc 18-12-26 for C3H-391 to change zram to 1.5G
-            echo 1610612736 > /sys/block/zram0/disksize
+            echo 2145386496 > /sys/block/zram0/disksize
         fi
         mkswap /dev/block/zram0
         swapon /dev/block/zram0 -p 32758
@@ -53,7 +53,7 @@ function configure_memory_parameters() {
 
     arch_type=`uname -m`
 
-    echo "4689,9378,14067,18756,23445,28134" > /sys/module/lowmemorykiller/parameters/minfree
+    echo "4096,8192,15729,20972,31457,36700" > /sys/module/lowmemorykiller/parameters/minfree
 
     # Calculate vmpressure_file_min as below & set for 64 bit:
     # vmpressure_file_min = last_lmk_bin + (last_lmk_bin - last_but_one_lmk_bin)
@@ -133,15 +133,15 @@ echo -6 > /sys/devices/system/cpu/cpu5/sched_load_boost
 echo -6 > /sys/devices/system/cpu/cpu6/sched_load_boost
 echo -6 > /sys/devices/system/cpu/cpu7/sched_load_boost
 
-# EAS scheduler (big.Little cluster related) settings
-echo 71 > /proc/sys/kernel/sched_upmigrate
+# Setting b.L scheduler parameters (perform it twice)
 echo 65 > /proc/sys/kernel/sched_downmigrate
 echo 71 > /proc/sys/kernel/sched_upmigrate
 echo 65 > /proc/sys/kernel/sched_downmigrate
-echo 100 > /proc/sys/kernel/sched_group_upmigrate
+echo 71 > /proc/sys/kernel/sched_upmigrate
 echo 85 > /proc/sys/kernel/sched_group_downmigrate
 echo 100 > /proc/sys/kernel/sched_group_upmigrate
 echo 85 > /proc/sys/kernel/sched_group_downmigrate
+echo 100 > /proc/sys/kernel/sched_group_upmigrate
 
 # Bring up all cores online
 echo 1 > /sys/devices/system/cpu/cpu1/online
