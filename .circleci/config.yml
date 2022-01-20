@@ -1,0 +1,17 @@
+version: 2.1
+jobs:
+  compile:
+   docker:
+      - image: fr3akyphantom/droid-builder:latest
+   steps:
+      - run:
+          command: |
+           git clone https://github.com/flashokillerify/kernel_xiaomi_sdm439 --single-branch -b S --depth=1 mi439
+           cd mi439
+           wget https://raw.githubusercontent.com/flashokillerify/personalscripts/master/kernel/build_ci.sh
+           bash build_ci.sh
+workflows:
+  version: 2.1
+  cooking:
+    jobs:
+      - compile
